@@ -1,7 +1,6 @@
 from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from flask.ext.sqlalchemy import get_debug_queries
-from flask.ext.babel import gettext
+import os, sys
 from app import app, db, lm, oid, babel
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post
