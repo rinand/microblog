@@ -19,20 +19,6 @@ def load_user(id):
 def get_locale():
     return request.accept_languages.best_match(LANGUAGES.keys())
     
-@app.before_request
-def before_request():
-    g.user = current_user
-    if g.user.is_authenticated():
-        g.user.last_seen = datetime.utcnow()
-        db.session.add(g.user)
-        db.session.commit()
-        g.search_form = SearchForm()
-    g.locale = get_locale()
-    g.search_enabled = WHOOSH_ENABLED
-
-@app.after_request
-def after_request(response):
-    for query in get_debug_queries():
         if query.duration >= DATABASE_QUERY_TIMEOUT:
             app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
     return response
